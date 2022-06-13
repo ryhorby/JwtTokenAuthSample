@@ -13,39 +13,13 @@ namespace JwtTokenAuth.API.Controllers
     public class AuthController : Controller
     {
         private readonly IConfiguration _configuration;
-
-        //Easiest repository
-        private static User _user;
+        private static User _user = new User();
 
         public AuthController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        /// <summary>
-        /// Register user into repository
-        /// </summary>
-        /// <param name="request">Dto object</param>
-        /// <returns>User object which was added</returns>
-        /// <remarks>
-        /// Sample request:
-        /// 
-        ///     POST auth/register
-        ///     {        
-        ///       "login": "login",
-        ///       "password": "password"       
-        ///     }
-        ///  Another request if you want to add role:
-        ///  
-        ///     POST auth/register
-        ///     {        
-        ///       "login": "login",
-        ///       "password": "password" 
-        ///       "role": "admin"
-        ///     }
-        /// </remarks>
-        /// <response code="201">Returns the newly created user</response>
-        /// <response code="400">If you didn`t fill login or password</response>
         [HttpPost("register")]
         public IActionResult Register(UserDto request)
         {
@@ -65,23 +39,6 @@ namespace JwtTokenAuth.API.Controllers
             return Created("/auth/register", _user);
         }
 
-        /// <summary>
-        /// Loging into your web application
-        /// </summary>
-        /// <param name="request">Dto object</param>
-        /// <returns>User object which was added</returns>
-        /// <remarks>
-        /// Sample request:
-        /// 
-        ///     POST auth/login
-        ///     {        
-        ///       "login": "login",
-        ///       "password": "password"       
-        ///     }
-        /// </remarks>
-        /// <response code="200">Returns jwt token for authentication</response>
-        /// <response code="401">If login or password was incorect</response>
-        /// <response code="404">If repository was empty</response>
         [HttpPost("login")]
         public ActionResult<string> Login(UserDto request)
         {
@@ -97,7 +54,7 @@ namespace JwtTokenAuth.API.Controllers
         }
 
 
-        //Service
+        //Services
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())

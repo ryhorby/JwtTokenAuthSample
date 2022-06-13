@@ -17,38 +17,19 @@ namespace JwtTokenAuth.API.Controllers
             "Freezing", "Bracing", "Chilly", "Cold", "Mild", "Warm", "Balmy", "Hot"
         };
 
-        /// <summary>
-        /// Get weather forecast on 14 days for authorized users with admin role
-        /// </summary>
-        /// <returns>Returns weather on 14 days</returns>
-        /// <response code="200">Returns weather on 14 days</response>
-        /// <response code="401">If you not authorized</response>
-        /// <response code="403">If you authorized but don`t have permission</response>
+        
         [HttpGet("getWeatherForecastForTwoWeeks"), Authorize(Roles="Admin")]
         public IEnumerable<WeatherForecast> GetForOneTwoWeeks()
         {
             return GetWeatherForecast(NUMBER_OF_DAYS_FOR_ADMIN);
         }
 
-
-        /// <summary>
-        /// Get weather forecast on 7 days for authorized users
-        /// </summary>
-        /// <returns>Returns weather on 7 days</returns>
-        /// <response code="200">Returns weather on 7 days</response>
-        /// <response code="401">If you not authorized</response>
         [HttpGet("getWeatherForecastForWeek"), Authorize]
         public IEnumerable<WeatherForecast> GetForOneWeek()
         {
             return GetWeatherForecast(NUMBER_OF_DAYS_FOR_AUTH);
         }
 
-
-        /// <summary>
-        /// Get weather forecast on 2 days for all users
-        /// </summary>
-        /// <returns>Returns weather on 2 days</returns>
-        /// <response code="200">Returns weather on 2 days</response>
         [HttpGet("getWeatherForecastForTwoDays"), AllowAnonymous]
         public IEnumerable<WeatherForecast> GetForTwoDays()
         {
